@@ -20,59 +20,51 @@ int main() {
 
     // Replace the first 15 bytes with the modified character
     ch |= (1 << 0); // Set bit 1 (8 in decimal)
-    // for (int i = 0; i < 30; ++i) {
     for (int i = 0; i < 32768; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 1); // Set bit 1 (8 in decimal)
-    // for (int i = 0; i < 30; ++i) {
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 32768; i < 65536; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 2); // Set bit 1 (8 in decimal)
-    // for (int i = 32; i < 64; ++i) {   // 1/2 of one chip
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 65536; i < 98304; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 3); // Set bit 1 (8 in decimal)
-    // for (int i = 64; i < 128; ++i) {   // 1/2 of one chip
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 98304; i < 131072; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 4); // Set bit 1 (8 in decimal)
-    // for (int i = 128; i < 192; ++i) {   // 1/2 of one chip
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 131072; i < 163840; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 5); // Set bit 1 (8 in decimal)
-    // for (int i = 192; i < 256; ++i) {   // 1/2 of one chip
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 163840; i < 196608; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
     ch = 0x00;  // Start with 0x00
-    ch |= (1 << 6); // Set bit 1 (8 in decimal)
-    // for (int i = 256; i < 320; ++i) {   // 1/2 of one chip
+    ch |= (1 << 0); // Set bit 1 (8 in decimal)
     for (int i = 196608; i < 229376; ++i) {   // 1/2 of one chip
         fputc(ch, file);  // Write the modified character
     }
 
-    ch = 0x00;  // Start with 0x00
-    ch |= (1 << 7); // Set bit 1 (8 in decimal)
-    // for (int i = 320; i < 512; ++i) {   // 1/2 of one chip
-    for (int i = 229376; i < 262144; ++i) {   // 1/2 of one chip
-        fputc(ch, file);  // Write the modified character
-    }
+    // ch = 0x00;  // Start with 0x00
+    // ch |= (1 << 0); // Set bit 1 (8 in decimal)
+    // for (int i = 229376; i < 262144; ++i) {   // 1/2 of one chip
+    //     fputc(ch, file);  // Write the modified character
+    // }
 
     // Move the cursor back to the beginning of the file for reading
     rewind(file);
