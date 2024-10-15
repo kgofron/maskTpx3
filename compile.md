@@ -3,6 +3,11 @@
 * g++ writeMask.cpp -o writeMask
 * gcc writeMask.c -o writeMask
 
+## copy file to buffer
+* gcc -o file_copy_buffer file_copy_buffer.c
+* ./file_copy_buffer source.txt destination.txt
+
+
 ## Chip DAC adjustments
 * medium power -> high power
 ```
