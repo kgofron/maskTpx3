@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
                         printf("chip3, i=%d, j=%d, index=%d\n", i, j, index);
                     }                    
                     buffer[index] |= (1 << 0);
+                    binaryArray[i][j] |= (1 << 0);
                 }
                 else if ((j >= 256) && (j < 512)) {     // chip 2
                     index = 2*256*256 + (255 - i) + 256 * (511 - j); 
@@ -103,6 +104,7 @@ int main(int argc, char *argv[]) {
                         printf("chip2, i=%d, j=%d, index=%d\n", i, j, index);
                     }
                     buffer[index] |= (1 << 0);
+                    binaryArray[i][j] |= (1 << 0);
                 }
                 else {
                     printf("image larger than 256 x 512\n");
@@ -115,6 +117,7 @@ int main(int argc, char *argv[]) {
                         printf("chip0, i=%d, j=%d, index=%d\n", i, j, index);
                     }
                     buffer[index] |= (1 << 0);
+                    binaryArray[i][j] |= (1 << 0);
                 }
                 else if ((j >= 256) && (j < 512)) {     // chip 1
                     index = 2*256*256 + (255 - i) - 256 *(j-256); // chip 1, CORRECT
@@ -122,6 +125,7 @@ int main(int argc, char *argv[]) {
                         printf("chip1, i=%d, j=%d, index=%d\n", i, j, index);
                     }
                     buffer[index] |= (1 << 0);
+                    binaryArray[i][j] |= (1 << 0);
                 }
                 else {
                     printf("image larger than 512 x 512\n");
@@ -138,6 +142,10 @@ int main(int argc, char *argv[]) {
         //    buffer[i+j*256 + 2*256*256] |= (1 << 0); // ORIGIN Chip2 (upper-right corner): Set bit 0 to 1
         //    buffer[i+j*256 + 3*256*256] |= (1 << 0); // ORIGIN Chip3 (down-left corner): Set bit 0 to 1
     }    
+
+    // After mask applied
+    nMaskedPixels = find_masked_positions(buffer, fileSize, 0);
+    printf("Number of masked pixels=%ld\n", nMaskedPixels);
 
     // Open the destination file for writing
     destFile = fopen(argv[2], "wb");
