@@ -55,8 +55,9 @@ void maskCircle(int *buf, int nX,int nY, int nRadius) {
     }
 }
 
+/*
 // Transcode the 2D mask into the Binary Pixel Configuration 1D mask.
-void mask2DtoBPC(char *bufBPC) {
+void mask2DtoBPCv1(char *bufBPC) {
     int index = 0;
 //    for (int i = 0; i < ROWS; ++i) {
 //        for (int j = 0; j < COLS; ++j) {
@@ -115,6 +116,76 @@ void mask2DtoBPC(char *bufBPC) {
         }
     }    
 }
+*/
+
+// Transcode the 2D mask into the Binary Pixel Configuration 1D mask.
+void mask2DtoBPC(int *buf, char *bufBPC) {
+    int index = 0;
+//    for (int i = 0; i < ROWS; ++i) {
+//        for (int j = 0; j < COLS; ++j) {
+//            buf[i*ROWS + j] = 0;
+//        }
+//    }
+//}
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+
+            // Image coordinate
+            if (i < 256) { // chip 2, 3
+            //    printf("Chip2,3\n");
+                if (j < 256) { 
+                    index = 3*256*256 + i + j*256;  // chip 3, CORRECT
+                    if ((index > 4*256*256) || (index < 3*256*256)) {
+                        printf("chip3, i=%d, j=%d, index=%d\n", i, j, index);
+                    }
+                    if (buf[i*ROWS + j] & (1 << 0)) {
+                        bufBPC[index] |= (1 << 0);
+                    }
+                }
+                else if ((j >= 256) && (j < 512)) {     // chip 2
+                    index = 2*256*256 + (255 - i) + 256 * (511 - j); 
+                    if ((index > 3*256*256) || (index < 2*256*256)) {
+                        printf("chip2, i=%d, j=%d, index=%d\n", i, j, index);
+                    }
+                    if (buf[i*ROWS + j] & (1 << 0)) {
+                        bufBPC[index] |= (1 << 0);
+                    }
+                }
+                else {
+                    printf("image larger than 256 x 512\n");
+                }
+            }
+            else if ((i >= 256) && (i < 512)) {
+                if (j < 256) {  
+                    index = (i - 256) + j*256; // chip 0, CORRECT
+                    if ((index > 256*256) || (index < 0)) {
+                        printf("chip0, i=%d, j=%d, index=%d\n", i, j, index);
+                    }
+                    if (buf[i*ROWS + j] & (1 << 0)) {
+                        bufBPC[index] |= (1 << 0);
+                    }
+                }
+                else if ((j >= 256) && (j < 512)) {     // chip 1
+                    index = 2*256*256 + (255 - i) - 256 *(j-256); // chip 1, CORRECT
+                    if ((index > 2*256*256) || (index < 256*256)) {
+                        printf("chip1, i=%d, j=%d, index=%d\n", i, j, index);
+                    }
+                    if (buf[i*ROWS + j] & (1 << 0)) {
+                        bufBPC[index] |= (1 << 0);
+                    }
+                }
+                else {
+                    printf("image larger than 512 x 512\n");
+                }
+            }
+            else {
+                printf("image size larger than 512 x 512\n");
+            }
+                
+
+        }
+    }    
+}
 
 
 int main(int argc, char *argv[]) {
@@ -134,13 +205,14 @@ int main(int argc, char *argv[]) {
 
     maskRectangle( (int*) binaryArray, 3, 2, 15, 3);
     maskCircle((int*) binaryArray, 5, 5, 4);
-    //maskReset((int*) binaryArray);
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 30; ++j) {
             printf(",%d", binaryArray[i][j]);
         }
         printf("\n");
     }
+    maskReset((int*) binaryArray);
+    maskRectangle( (int*) binaryArray, 150, 200, 150, 200);
 
     // Declare TimePix3 Binary Pixel Configuration .bpc vector index
     int index = 0;
@@ -172,58 +244,7 @@ int main(int argc, char *argv[]) {
     nMaskedPixels = find_masked_positions(buffer, fileSize, 0);
     printf("Number of masked pixels=%ld\n", nMaskedPixels);
 
-//    for (int i = 150; i < 350; ++i) {
-//        for (int j = 150; j < 350; ++j) {
-//
-//            // Image coordinate
-//            if (i < 256) { // chip 2, 3
-//            //    printf("Chip2,3\n");
-//                if (j < 256) { 
-//                    index = 3*256*256 + i + j*256;  // chip 3, CORRECT
-//                    if ((index > 4*256*256) || (index < 3*256*256)) {
-//                        printf("chip3, i=%d, j=%d, index=%d\n", i, j, index);
-//                    }                    
-//                    buffer[index] |= (1 << 0);
-//                }
-//                else if ((j >= 256) && (j < 512)) {     // chip 2
-//                    index = 2*256*256 + (255 - i) + 256 * (511 - j); 
-//                    if ((index > 3*256*256) || (index < 2*256*256)) {
-//                        printf("chip2, i=%d, j=%d, index=%d\n", i, j, index);
-//                    }
-//                    buffer[index] |= (1 << 0);
-//                }
-//                else {
-//                    printf("image larger than 256 x 512\n");
-//                }
-//            }
-//            else if ((i >= 256) && (i < 512)) {
-//                if (j < 256) {  
-//                    index = (i - 256) + j*256; // chip 0, CORRECT
-//                    if ((index > 256*256) || (index < 0)) {
-//                        printf("chip0, i=%d, j=%d, index=%d\n", i, j, index);
-//                    }
-//                    buffer[index] |= (1 << 0);
-//                }
-//                else if ((j >= 256) && (j < 512)) {     // chip 1
-//                    index = 2*256*256 + (255 - i) - 256 *(j-256); // chip 1, CORRECT
-//                    if ((index > 2*256*256) || (index < 256*256)) {
-//                        printf("chip1, i=%d, j=%d, index=%d\n", i, j, index);
-//                    }
-//                    buffer[index] |= (1 << 0);
-//                }
-//                else {
-//                    printf("image larger than 512 x 512\n");
-//                }
-//            }
-//            else {
-//                printf("image size larger than 512 x 512\n");
-//            }
-//                
-//
-//        }
-//    }    
-
-    mask2DtoBPC(buffer);
+    mask2DtoBPC( (int*) binaryArray, buffer);
 
     // After mask applied
     nMaskedPixels = find_masked_positions(buffer, fileSize, 0);
