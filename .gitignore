@@ -6,6 +6,10 @@
 *.ko
 *.obj
 *.elf
+*.bmp
+*.tiff
+*_bmp
+*_tiff
 
 # Linker output
 *.ilk
