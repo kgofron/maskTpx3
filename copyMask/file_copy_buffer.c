@@ -121,12 +121,7 @@ void mask2DtoBPCv1(char *bufBPC) {
 // Transcode the 2D mask into the Binary Pixel Configuration 1D mask.
 void mask2DtoBPC(int *buf, char *bufBPC) {
     int index = 0;
-//    for (int i = 0; i < ROWS; ++i) {
-//        for (int j = 0; j < COLS; ++j) {
-//            buf[i*ROWS + j] = 0;
-//        }
-//    }
-//}
+
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
 
