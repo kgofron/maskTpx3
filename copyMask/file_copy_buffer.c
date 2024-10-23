@@ -55,70 +55,7 @@ void maskCircle(int *buf, int nX,int nY, int nRadius) {
     }
 }
 
-/*
-// Transcode the 2D mask into the Binary Pixel Configuration 1D mask.
-void mask2DtoBPCv1(char *bufBPC) {
-    int index = 0;
-//    for (int i = 0; i < ROWS; ++i) {
-//        for (int j = 0; j < COLS; ++j) {
-//            buf[i*ROWS + j] = 0;
-//        }
-//    }
-//}
-    for (int i = 150; i < 350; ++i) {
-        for (int j = 150; j < 350; ++j) {
-
-            // Image coordinate
-            if (i < 256) { // chip 2, 3
-            //    printf("Chip2,3\n");
-                if (j < 256) { 
-                    index = 3*256*256 + i + j*256;  // chip 3, CORRECT
-                    if ((index > 4*256*256) || (index < 3*256*256)) {
-                        printf("chip3, i=%d, j=%d, index=%d\n", i, j, index);
-                    }                    
-                    bufBPC[index] |= (1 << 0);
-                }
-                else if ((j >= 256) && (j < 512)) {     // chip 2
-                    index = 2*256*256 + (255 - i) + 256 * (511 - j); 
-                    if ((index > 3*256*256) || (index < 2*256*256)) {
-                        printf("chip2, i=%d, j=%d, index=%d\n", i, j, index);
-                    }
-                    bufBPC[index] |= (1 << 0);
-                }
-                else {
-                    printf("image larger than 256 x 512\n");
-                }
-            }
-            else if ((i >= 256) && (i < 512)) {
-                if (j < 256) {  
-                    index = (i - 256) + j*256; // chip 0, CORRECT
-                    if ((index > 256*256) || (index < 0)) {
-                        printf("chip0, i=%d, j=%d, index=%d\n", i, j, index);
-                    }
-                    bufBPC[index] |= (1 << 0);
-                }
-                else if ((j >= 256) && (j < 512)) {     // chip 1
-                    index = 2*256*256 + (255 - i) - 256 *(j-256); // chip 1, CORRECT
-                    if ((index > 2*256*256) || (index < 256*256)) {
-                        printf("chip1, i=%d, j=%d, index=%d\n", i, j, index);
-                    }
-                    bufBPC[index] |= (1 << 0);
-                }
-                else {
-                    printf("image larger than 512 x 512\n");
-                }
-            }
-            else {
-                printf("image size larger than 512 x 512\n");
-            }
-                
-
-        }
-    }    
-}
-*/
-
-// Transcode the 2D mask into the Binary Pixel Configuration 1D mask.
+// Transcode the 2D mask into the Binary Pixel Configuration 1D mask. Quad 2x2 TimePix3 only
 void mask2DtoBPC(int *buf, char *bufBPC) {
     int index = 0;
 
