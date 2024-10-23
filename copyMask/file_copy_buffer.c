@@ -22,34 +22,46 @@ int find_masked_positions(char *buffer, long fileSize, int N) {
     return nMaskedPel;
 }
 
-// Mask reset to 0
-void maskReset(int *buf) {
+// Mask reset to 0 (active pel) or 1 (disabled pel)
+void maskReset(int *buf, int OnOff) {
+//    printf("OnOff=%d\n", OnOff);
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
-            buf[i*ROWS + j] = 0;
+            buf[i*ROWS + j] = OnOff;
         }
     }
 }
 
 // Mask a nXsize x nYsize rectangle, or pint (nXsize=nYsize=1), or line respectivly
-void maskRectangle(int *buf, int nX,int nXsize, int nY, int nYsize) {
+void maskRectangle(int *buf, int nX,int nXsize, int nY, int nYsize, int OnOff) {
     for (int i = nX; i < nX+nXsize; ++i) {
         if ( i < ROWS ) {
             for (int j = nY; j < nY + nYsize; ++j) {
                 if (j < COLS) {
-                    buf[i*ROWS + j] |= (1 << 0);
+    //                buf[i*ROWS + j] |= (1 << 0);
+                    if (OnOff) {
+                        buf[i*ROWS + j] |= (1 << 0);    // set mask bit to 1
+                    }
+                    else {
+                        buf[i*ROWS + j] &= ~(1 << 0);   // set mask bit 0 0
+                    }
                 }
             }
         }
     }
 }
 
-// Mask a circle
-void maskCircle(int *buf, int nX,int nY, int nRadius) {
+// Mask a circle: OnOff=1 set bit to 1, OnOff=0, set bit to 0
+void maskCircle(int *buf, int nX,int nY, int nRadius, int OnOff) {
     for (int i = nX - nRadius; i <= nX+nRadius; ++i) {
         for (int j = nY - nRadius; j <= nY + nRadius; ++j) {
             if ((i >= 0) && (i < ROWS) && (j >= 0) && (j < COLS) && (((i - nX)*(i - nX) + (j - nY)*(j - nY)) <= nRadius*nRadius)) {
-                buf[i*ROWS + j] |= (1 << 0);
+                if (OnOff) {
+                    buf[i*ROWS + j] |= (1 << 0);    // set mask bit to 1
+                }
+                else {
+                    buf[i*ROWS + j] &= ~(1 << 0);   // set mask bit 0 0
+                }
             }
         }
     }
@@ -131,20 +143,24 @@ int main(int argc, char *argv[]) {
     long fileSize;
     char *buffer;
     long nMaskedPixels;
+    int OnOffPel=0;
 
     // Declare and initialize the 2D mask array
     int binaryArray[ROWS][COLS] = {0};
 
-    maskRectangle( (int*) binaryArray, 3, 2, 15, 3);
-    maskCircle((int*) binaryArray, 5, 5, 4);
+    OnOffPel = 1;
+    maskReset((int*) binaryArray,OnOffPel);
+    maskRectangle( (int*) binaryArray, 3, 2, 15, 3, 0);
+    maskCircle((int*) binaryArray, 5, 5, 4, 0);
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 30; ++j) {
             printf(",%d", binaryArray[i][j]);
         }
         printf("\n");
     }
-    maskReset((int*) binaryArray);
-    maskRectangle( (int*) binaryArray, 150, 200, 150, 200);
+//    OnOffPel = 1;
+//    maskReset((int*) binaryArray,OnOffPel);
+//    maskRectangle( (int*) binaryArray, 150, 200, 150, 200, 0);
 
     // Declare TimePix3 Binary Pixel Configuration .bpc vector index
     int index = 0;
