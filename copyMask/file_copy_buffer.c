@@ -150,8 +150,9 @@ int main(int argc, char *argv[]) {
 
     OnOffPel = 1;
     maskReset((int*) binaryArray,OnOffPel);
-    maskRectangle( (int*) binaryArray, 3, 2, 15, 3, 0);
-    maskCircle((int*) binaryArray, 5, 5, 4, 0);
+    maskRectangle( (int*) binaryArray, 3, 2, 15, 3, 0);  // rectangle
+    maskRectangle( (int*) binaryArray, 8, 1, 15, 1, 0);  // point 
+    maskCircle((int*) binaryArray, 5, 5, 4, 0);         // circle
     for (int i = 0; i < 15; ++i) {
         for (int j = 0; j < 30; ++j) {
             printf(",%d", binaryArray[i][j]);
