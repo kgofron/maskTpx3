@@ -1,0 +1,13 @@
+record(waveform, "myWaveform") {
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(NELM, "512")
+    field(FTVL, "DOUBLE")
+}
+
+record(waveform, "myWaveform_2D") {
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field(NELM, "512")
+    field(FTVL, "DOUBLE")
+}
