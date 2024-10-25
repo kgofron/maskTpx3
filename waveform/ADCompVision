@@ -1,4 +1,5 @@
 # Waveform
+
 * NDPluginCV.cpp
 	* NDPluginCV::processCallbacks(NDArray *pArray)
 	* https://github.com/areaDetector/ADCompVision/blob/master/adcvApp/adcvSrc/NDPluginCV.cpp#L693
@@ -9,6 +10,7 @@
 		* status = mat2NDArray(img, pScratch);
 
 ## ADCore processPlugin for Flatfield Correction
+* NDPluginTimeSeries.cpp:368:    doCallbacksGenericPointer(pArrayOut, NDArrayData, numSignals_);
 * array of double
 
 
