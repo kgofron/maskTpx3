@@ -16,7 +16,8 @@ int find_masked_positions(char *buffer, long fileSize, int N) {
         // Check if the bit at position N is set to 1
         if (buffer[i] & (1 << N)) {
             nMaskedPel += 1;
-    //        printf("Bit i=%d, nMaskedPel=%d\n", i, nMaskedPel);
+        //    printf("i=%d,m=%d\n", i, nMaskedPel);
+        //    printf("Bit i=%d, nMaskedPel=%d\n", i, nMaskedPel);
         }
     }
     return nMaskedPel;
