@@ -7,13 +7,20 @@ Testing with the detector to identify masking bit
 	* cp ~/Documents/Detector/TimePix3/Venus/maskPixel/writeBinary mask.bpc
 	* ./writeMask
 
-## Identify chips
+## Identify chips: 
+* BL10, and Bl7 chips are rotated left.
 ```
 2 | 1
 3 | 0
 ```
 The mask starts from lower right corner of chip0.
- 
+
+## TODO-> True chip layout??:
+```
+3 | 2
+0 | 1
+```
+
 ## Chip orientation
 * Chip0 - bottom right-corner
 * Chip1 - top right-corner
@@ -27,3 +34,32 @@ The mask starts from lower right corner of chip0.
 8 | 2
 7 | 1
 ```
+
+* Chip index
+Width=W=256 pel
+ChipNo	Mask[k] index
+0	i - W + W*j
+1	W*W + (2*W-1 - i) + (2*W-1 - j)*W
+2	2*W*W + (W-1 - i) + (2*W-1 - j)*W
+3	3*W*W + i + W*j
+
+Image (i,j)
+0,  256<=i<512; 0<=j<256
+1,  256<=i<512; 256<=j<512
+2,  0<=i<256; 256<=j<512
+3,  0<=i<256; 0<=j<256
+
+Mask(k)->Image(i,j)
+chip=k/Width
+i=(k-chip*W)/W
+j=(k-chip*W)%W
+
+For chips 1,2, need to reverse indexes in the global coordinates. These chips are mask-index counted from upper-right corner in the mask.
+Chip internal (i,j) for chip 1,2: i->W-i, j->W-j
+Global index
+0: W+i,j
+1: 2W-i,2W-j
+2: W-i,2W-j
+3: i,j
+
+
