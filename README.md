@@ -63,3 +63,59 @@ Global index
 3: i,j
 
 
+## LEFT
+
+```
+"Layout" : {
+  "DetectorOrientation" : "LEFT",
+  "Original" : {
+    "Width" : 512,
+    "Height" : 512,
+    "Chips" : [ {
+      "Chip" : 0,
+      "X" : 256,
+      "Y" : 0,
+      "Orientation" : "LtRBtT"
+    }, {
+      "Chip" : 1,
+      "X" : 256,
+      "Y" : 256,
+      "Orientation" : "RtLTtB"
+    }, {
+      "Chip" : 2,
+      "X" : 0,
+      "Y" : 256,
+      "Orientation" : "RtLTtB"
+    }, {
+      "Chip" : 3,
+      "X" : 0,
+      "Y" : 0,
+      "Orientation" : "LtRBtT"
+    } ]
+  },
+  "Rotated" : {
+    "Chips" : [ {
+      "Chip" : 0,
+      "X" : 256,
+      "Y" : 256,
+      "Orientation" : "BtTRtL"
+    }, {
+      "Chip" : 1,
+      "X" : 0,
+      "Y" : 256,
+      "Orientation" : "TtBLtR"
+    }, {
+      "Chip" : 2,
+      "X" : 0,
+      "Y" : 0,
+      "Orientation" : "TtBLtR"
+    }, {
+      "Chip" : 3,
+      "X" : 256,
+      "Y" : 0,
+      "Orientation" : "BtTRtL"
+    } ],
+    "Width" : 512,
+    "Height" : 512
+  }
+```
