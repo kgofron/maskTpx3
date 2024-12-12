@@ -9,16 +9,17 @@ Testing with the detector to identify masking bit
 
 ## Identify chips: 
 * BL10, and Bl7 chips are rotated left.
+* UP
 ```
 2 | 1
 3 | 0
 ```
 The mask starts from lower right corner of chip0.
 
-## TODO-> True chip layout??:
+## LEFT-> BL10:
 ```
-3 | 2
-0 | 1
+1 | 0
+2 | 3
 ```
 
 ## Chip orientation
