@@ -30,7 +30,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Print table header
+    // Print file name and table header
+    printf("File: %s\n", argv[1]);
+    printf("----------------------------------------\n");
     printf("Position\tValue\tChip\tx\ty\n");
     printf("--------\t-----\t----\t-\t-\n");
 
