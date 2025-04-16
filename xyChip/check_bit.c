@@ -18,6 +18,27 @@ void calculate_coordinates(long position, int *chip, int *x, int *y) {
     *x = (pos_in_chip % DIMENSION);
 }
 
+void calculate_image_coordinates(int chip, int x, int y, int *X, int *Y) {
+    switch(chip) {
+        case 0:
+            *X = 511 - y;    // Flip and invert Y coordinate
+            *Y = 255 - x;    // Flip and invert X coordinate, max 255
+            break;
+        case 1:
+            *X = y;          // Y coordinate becomes X
+            *Y = x;          // X coordinate becomes Y
+            break;
+        case 2:
+            *X = y;          // Y coordinate becomes X
+            *Y = 256 + x;    // X coordinate offset by 256
+            break;
+        case 3:
+            *X = 511 - y;    // Flip and invert Y coordinate
+            *Y = 511 - x;    // Flip and invert X coordinate, max 511
+            break;
+    }
+}
+
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <binary_file>\n", argv[0]);
@@ -32,20 +53,21 @@ int main(int argc, char *argv[]) {
 
     // Print file name and table header
     printf("File: %s\n", argv[1]);
-    printf("----------------------------------------\n");
-    printf("Position\tValue\tChip\tx\ty\n");
-    printf("--------\t-----\t----\t-\t-\n");
+    printf("------------------------------------------------------------------------\n");
+    printf("Position\tValue\tChip\tx\ty\tX\tY\n");
+    printf("--------\t-----\t----\t-\t-\t-\t-\n");
 
     unsigned char byte;
     long position = 0;
-    int chip, x, y;
+    int chip, x, y, X, Y;
 
     while (fread(&byte, 1, 1, file) == 1) {
         // Check if bit 0 is 1
         if (byte & 1) {
             calculate_coordinates(position, &chip, &x, &y);
-            printf("%ld\t\t0x%02X\t%d\t%d\t%d\n", 
-                   position, byte, chip, x, y);
+            calculate_image_coordinates(chip, x, y, &X, &Y);
+            printf("%ld\t\t0x%02X\t%d\t%d\t%d\t%d\t%d\n", 
+                   position, byte, chip, x, y, X, Y);
         }
         position++;
     }
