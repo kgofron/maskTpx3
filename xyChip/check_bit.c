@@ -51,8 +51,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Print file name and table header
+    // Print file name, orientation and table header
     printf("File: %s\n", argv[1]);
+    printf("Orientation=LEFT\n");
     printf("------------------------------------------------------------------------\n");
     printf("Position\tValue\tChip\tx\ty\tX\tY\n");
     printf("--------\t-----\t----\t-\t-\t-\t-\n");
