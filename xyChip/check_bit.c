@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Print table header
-    printf("Position\tValue\tChip\tX\tY\n");
+    printf("Position\tValue\tChip\tx\ty\n");
     printf("--------\t-----\t----\t-\t-\n");
 
     unsigned char byte;
