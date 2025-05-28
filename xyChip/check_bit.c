@@ -55,20 +55,21 @@ int main(int argc, char *argv[]) {
     printf("File: %s\n", argv[1]);
     printf("Orientation=LEFT\n");
     printf("------------------------------------------------------------------------\n");
-    printf("Position\tValue\tChip\tx\ty\tX\tY\n");
-    printf("--------\t-----\t----\t-\t-\t-\t-\n");
+    printf("#\tPosition\tValue\tChip\tx\ty\tX\tY\n");
+    printf("-\t--------\t-----\t----\t-\t-\t-\t-\n");
 
     unsigned char byte;
     long position = 0;
     int chip, x, y, X, Y;
+    int counter = 1;  // Initialize counter
 
     while (fread(&byte, 1, 1, file) == 1) {
         // Check if bit 0 is 1
         if (byte & 1) {
             calculate_coordinates(position, &chip, &x, &y);
             calculate_image_coordinates(chip, x, y, &X, &Y);
-            printf("%ld\t\t0x%02X\t%d\t%d\t%d\t%d\t%d\n", 
-                   position, byte, chip, x, y, X, Y);
+            printf("%d\t%ld\t\t0x%02X\t%d\t%d\t%d\t%d\t%d\n", 
+                   counter++, position, byte, chip, x, y, X, Y);
         }
         position++;
     }
