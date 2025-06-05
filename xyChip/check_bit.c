@@ -18,6 +18,24 @@ void calculate_coordinates(long position, int *chip, int *x, int *y) {
     *x = (pos_in_chip % DIMENSION);
 }
 
+/*
+ * Calculate global image coordinates (X,Y) from local chip coordinates (x,y)
+ * This function is for LEFT orientation only.
+ * 
+ * Chip layout for LEFT orientation:
+ *    [Chip 1]    [Chip 0]    (upper-left)  (upper-right)
+ *    [Chip 2]    [Chip 3]    (lower-left)  (lower-right)
+ * 
+ * For reference, UP orientation would be:
+ *    [Chip 2]    [Chip 1]    (left-top)    (upper-right)
+ *    [Chip 3]    [Chip 0]    (left-bottom) (lower-right)
+ * 
+ * Transformations for LEFT orientation:
+ * Chip 0: X=511-y, Y=255-x  (upper-right)
+ * Chip 1: X=y, Y=x          (upper-left)
+ * Chip 2: X=y, Y=256+x      (lower-left)
+ * Chip 3: X=511-y, Y=511-x  (lower-right)
+ */
 void calculate_image_coordinates(int chip, int x, int y, int *X, int *Y) {
     switch(chip) {
         case 0:
